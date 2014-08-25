@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Material Design FloatLabelLayout</string>
+    <string name="app_name">Material Design FloatingLabelLayout</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_textfield_show">Show error message</string>
     <string name="action_textfield_show_custom_icon">Show error message with a custom icon</string>
