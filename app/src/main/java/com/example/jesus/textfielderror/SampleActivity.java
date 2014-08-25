@@ -15,18 +15,18 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class MyActivity extends Activity {
+public class SampleActivity extends Activity {
 
-    private PlaceholderFragment placeholderFragment;
+    private SampleFragment sampleFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my);
+        setContentView(R.layout.activity_textfield_sample);
         if (savedInstanceState == null) {
-            placeholderFragment = new PlaceholderFragment();
+            sampleFragment = new SampleFragment();
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, placeholderFragment)
+                    .add(R.id.container, sampleFragment)
                     .commit();
         }
     }
@@ -47,19 +47,19 @@ public class MyActivity extends Activity {
         int id = item.getItemId();
         switch (item.getItemId()) {
             case R.id.action_show:
-                placeholderFragment.showEditText();
+                sampleFragment.showEditText();
                 break;
             case R.id.action_show_custom_icon:
-                placeholderFragment.showEditTextWithCustomIcon();
+                sampleFragment.showEditTextWithCustomIcon();
                 break;
             case R.id.action_clear:
-                placeholderFragment.clearEditText();
+                sampleFragment.clearEditText();
                 break;
             case R.id.action_enable:
-                placeholderFragment.setEditTextEnabled(true);
+                sampleFragment.setEditTextEnabled(true);
                 break;
             case R.id.action_disable:
-                placeholderFragment.setEditTextEnabled(false);
+                sampleFragment.setEditTextEnabled(false);
                 break;
         }
 
@@ -69,18 +69,18 @@ public class MyActivity extends Activity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    public static class SampleFragment extends Fragment {
 
         @InjectView(R.id.editText)
         FloatLabelLayout editText;
 
-        public PlaceholderFragment() {
+        public SampleFragment() {
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_my, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_textfield_sample, container, false);
             ButterKnife.inject(this, rootView);
             return rootView;
         }
