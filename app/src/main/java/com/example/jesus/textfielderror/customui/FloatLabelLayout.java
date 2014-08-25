@@ -72,7 +72,7 @@ public class FloatLabelLayout extends LinearLayout {
     public FloatLabelLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.edittextfield, this, true);
+        inflater.inflate(R.layout.float_label_textfield, this, true);
         ButterKnife.inject(this);
         initTextWatcher();
         setOrientation(VERTICAL);

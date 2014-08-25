@@ -98,7 +98,7 @@ public class SampleActivity extends Activity {
         }
 
         public void showEditTextWithCustomIcon() {
-            editText.setError(getString(R.string.error_message),
+            editText.setError(getString(R.string.error_message_sample),
                     getResources().getDrawable(R.drawable.ic_action_alerts_and_states_error));
         }
     }
