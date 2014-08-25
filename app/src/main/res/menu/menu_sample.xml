@@ -1,0 +1,33 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MyActivity">
+    <item
+        android:id="@+id/action_show"
+        android:title="@string/action_textfield_show"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_show_custom_icon"
+        android:title="@string/action_textfield_show_custom_icon"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_clear"
+        android:title="@string/action_textfield_clear"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_disable"
+        android:title="@string/action_textfield_disable"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_enable"
+        android:title="@string/action_textfield_enable"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+</menu>

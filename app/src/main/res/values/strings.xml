@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">TextFieldError</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_textfield_show">Show error message</string>
+    <string name="action_textfield_show_custom_icon">Show error message with a custom icon</string>
+    <string name="action_textfield_clear">Clear the error message</string>
+    <string name="error_message">Error message</string>
+    <string name="error_message_sample">This is an error message sample</string>
+    <string name="action_textfield_disable">Disable editText</string>
+    <string name="action_textfield_enable">Enable editText</string>
+    <string name="enter_your_text">Enter your text</string>
+
+</resources>
