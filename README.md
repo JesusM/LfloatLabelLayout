@@ -9,7 +9,7 @@ It has the same setText methods as a simple EditText:
   
   -setError(CharSequence error, Drawable icon)
   
-Both adapted from: http://developer.android.com/reference/android/widget/TextView.html#setError(java.lang.CharSequence)
+Both methods adapted from: http://developer.android.com/reference/android/widget/TextView.html#setError(java.lang.CharSequence)
 
 A sample screenshot: 
 
