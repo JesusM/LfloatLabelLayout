@@ -34,18 +34,14 @@ public class SampleActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_sample, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        switch (item.getItemId()) {
+        switch (id) {
             case R.id.action_show:
                 sampleFragment.showEditText();
                 break;
@@ -71,8 +67,8 @@ public class SampleActivity extends Activity {
      */
     public static class SampleFragment extends Fragment {
 
-        @InjectView(R.id.editText)
-        FloatLabelLayout editText;
+        @InjectView(R.id.floatingLabelLayout)
+        FloatLabelLayout floatLabelLayout;
 
         public SampleFragment() {
         }
@@ -82,23 +78,28 @@ public class SampleActivity extends Activity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_textfield_sample, container, false);
             ButterKnife.inject(this, rootView);
+            initEditText();
             return rootView;
         }
 
+        private void initEditText() {
+            floatLabelLayout.setHint(getString(R.string.enter_your_text));
+        }
+
         public void clearEditText() {
-            editText.clearError();
+            floatLabelLayout.clearError();
         }
 
         public void showEditText() {
-            editText.setError(getString(R.string.error_message_sample));
+            floatLabelLayout.setError(getString(R.string.error_message_sample));
         }
 
         public void setEditTextEnabled(boolean enabled) {
-            editText.setEnabled(enabled);
+            floatLabelLayout.setEnabled(enabled);
         }
 
         public void showEditTextWithCustomIcon() {
-            editText.setError(getString(R.string.error_message_sample),
+            floatLabelLayout.setError(getString(R.string.error_message_sample),
                     getResources().getDrawable(R.drawable.ic_action_alerts_and_states_error));
         }
     }

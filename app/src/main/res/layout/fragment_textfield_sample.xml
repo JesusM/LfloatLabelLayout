@@ -9,7 +9,7 @@
     tools:context=".MyActivity$PlaceholderFragment">
 
     <com.example.jesus.textfielderror.customui.FloatLabelLayout
-        android:id="@+id/editText"
+        android:id="@+id/floatingLabelLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

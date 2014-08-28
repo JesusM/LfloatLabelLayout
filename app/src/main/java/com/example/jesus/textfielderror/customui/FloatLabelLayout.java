@@ -1,5 +1,4 @@
-package com.example.jesus.textfielderror.customui;/*
- * Copyright (C) 2014 Chris Banes
+/* Copyright (C) 2014 Chris Banes
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +13,25 @@ package com.example.jesus.textfielderror.customui;/*
  * limitations under the License.
  */
 
+package com.example.jesus.textfielderror.customui;
+
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.ColorFilter;
 import android.graphics.LightingColorFilter;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -44,13 +49,14 @@ import butterknife.InjectView;
  * @see <a href="https://dribbble.com/shots/1254439--GIF-Mobile-Form-Interaction">Matt D. Smith on Dribble</a>
  * @see <a href="http://bradfrostweb.com/blog/post/float-label-pattern/">Brad Frost's blog post</a>
  */
+
 public class FloatLabelLayout extends LinearLayout {
 
 
     private static final long ANIMATION_DURATION = 150;
 
-    @InjectView(R.id.textView)
-    EditText mEditText;
+    @InjectView(R.id.edit_text)
+    EditText editText;
     @InjectView(R.id.textfield_error_container)
     View errorContainer;
     @InjectView(R.id.textFieldLabel)
@@ -60,6 +66,7 @@ public class FloatLabelLayout extends LinearLayout {
     @InjectView(R.id.textFieldErrorIcon)
     ImageView errorIcon;
 
+    private TextView label;
 
     public FloatLabelLayout(Context context) {
         this(context, null);
@@ -74,30 +81,30 @@ public class FloatLabelLayout extends LinearLayout {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.float_label_textfield, this, true);
         ButterKnife.inject(this);
-        initTextWatcher();
+        initEditText();
+        initLabel();
         setOrientation(VERTICAL);
     }
 
-    public void setError(CharSequence error, Drawable icon) {
-        if (icon != null) {
-            errorIcon.setImageDrawable(getColoredDrawable(icon,
-                    getResources().getColor(R.color.float_label_error)));
-        }
-
-        showLabel(error);
+    private void initEditText() {
+        editText.setTypeface(getRegularTypeFace());
+        initFocusListener();
+        initTextWatcher();
     }
 
-    public void setError(CharSequence error) {
-        showLabel(error);
+    private void initFocusListener() {
+        // Add focus listener to the EditText so that we can notify the label that it is activated.
+        // Allows the use of a ColorStateList for the text color on the label
+        editText.setOnFocusChangeListener(new OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean focused) {
+                label.setActivated(focused);
+            }
+        });
     }
-
-    public void clearError() {
-        hideLabel();
-    }
-
 
     private void initTextWatcher() {
-        getEditText().addTextChangedListener(new TextWatcher() {
+        editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
 
@@ -105,55 +112,100 @@ public class FloatLabelLayout extends LinearLayout {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
+                if (!TextUtils.isEmpty(charSequence)) {
+                    clearError();
+                }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                checkAfterTextChanged(editable);
+                handleLabelStateForTextChanged(editable);
+            }
 
+            private void handleLabelStateForTextChanged(Editable editable) {
+                if (TextUtils.isEmpty(editable)) {
+                    // The text is empty, so hide the label if it is visible
+                    if (label.getVisibility() == View.VISIBLE) {
+                        hideLabel();
+                    }
+                } else {
+                    // The text is not empty, so show the label if it is not visible
+                    if (label.getVisibility() != View.VISIBLE) {
+                        showLabel();
+                    }
+                }
             }
         });
     }
 
+    private void initLabel() {
+        label = new TextView(getContext());
+        label.setVisibility(INVISIBLE);
+        label.setTextColor(getContext().getResources().getColor(R.color.float_label));
+        label.setTextSize(TypedValue.COMPLEX_UNIT_PX, getContext().getResources().getDimensionPixelSize(R.dimen.edit_text_label_text_size));
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        addView(label, 0, layoutParams);
 
-    protected void checkAfterTextChanged(Editable s) {
-        if (TextUtils.isEmpty(s)) {
-            // The text is empty, so hide the label if it is visible
-            if (fieldLabel.getVisibility() == View.VISIBLE) {
-                hideLabel();
-            }
-        } else {
-            actionTextNotEmpty();
+    }
+
+    public void setError(CharSequence error, Drawable icon) {
+        if (icon != null) {
+            errorIcon.setImageDrawable(getColoredDrawable(icon,
+                    getResources().getColor(R.color.float_label_error)));
         }
+        showErrorLabel(error);
     }
 
-    protected void actionTextNotEmpty() {
-        // The text is not empty, so show the label if it is not visible
-        if (fieldLabel.getVisibility() != View.VISIBLE) {
-            showLabel("");
-        }
-
+    public void setError(CharSequence error) {
+        showErrorLabel(error);
     }
 
-    /**
-     * @return the {@link android.widget.EditText} text input
-     */
-    public EditText getEditText() {
-        return mEditText;
+    public void clearError() {
+        bottomLine.setBackgroundColor(getResources().getColor(R.color.float_label));
+        hideErrorLabel();
     }
 
-    /**
-     * @return the {@link android.widget.TextView} label
-     */
-    public TextView getLabel() {
-        return fieldLabel;
+    public void setHint(String hint) {
+        editText.setHint(hint);
+        label.setText(editText.getHint());
     }
 
     /**
      * Show the label using an animation
      */
-    private void showLabel(final CharSequence error) {
+    private void showLabel() {
+        label.setVisibility(View.VISIBLE);
+        label.setAlpha(0f);
+        label.setTranslationY(label.getHeight());
+        label.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setDuration(ANIMATION_DURATION)
+                .setListener(null).start();
+    }
+
+    /**
+     * Hide the label using an animation
+     */
+    private void hideLabel() {
+        label.setAlpha(1f);
+        label.setTranslationY(0f);
+        label.animate()
+                .alpha(0f)
+                .translationY(label.getHeight())
+                .setDuration(ANIMATION_DURATION)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        label.setVisibility(View.INVISIBLE);
+                    }
+                }).start();
+    }
+
+    /**
+     * Show the label using an animation
+     */
+    private void showErrorLabel(final CharSequence error) {
         ObjectAnimator alpha = ObjectAnimator.ofFloat(errorContainer, "alpha", 0f, 1f);
         ObjectAnimator translationY = ObjectAnimator.ofFloat(errorContainer, "translationY",
                 -fieldLabel.getHeight(), 0f);
@@ -191,17 +243,17 @@ public class FloatLabelLayout extends LinearLayout {
     @Override
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
-        mEditText.setEnabled(enabled);
+        editText.setEnabled(enabled);
         bottomLine.setEnabled(enabled);
         if (!enabled) {
-            hideLabel();
+            hideErrorLabel();
         }
     }
 
     /**
      * Hide the label using an animation
      */
-    private void hideLabel() {
+    private void hideErrorLabel() {
         errorContainer.setAlpha(1f);
         errorContainer.setTranslationY(0f);
         ObjectAnimator alpha = ObjectAnimator.ofFloat(errorContainer, "alpha", 0f);
@@ -209,32 +261,29 @@ public class FloatLabelLayout extends LinearLayout {
                 -fieldLabel.getHeight());
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.addListener(new Animator.AnimatorListener() {
-                                    @Override
-                                    public void onAnimationStart(Animator animator) {
-                                        bottomLine.setBackgroundResource(
-                                                R.drawable.fieldtext_bottomline_color);
+            @Override
+            public void onAnimationStart(Animator animator) {
+                bottomLine.setBackgroundResource(
+                        R.drawable.fieldtext_bottomline_color);
+            }
 
-                                    }
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                errorContainer.setVisibility(INVISIBLE);
+                fieldLabel.setText(null);
+            }
 
-                                    @Override
-                                    public void onAnimationEnd(Animator animator) {
-                                        errorContainer.setVisibility(INVISIBLE);
-                                        fieldLabel.setText(null);
-                                    }
+            @Override
+            public void onAnimationCancel(Animator animator) {
 
-                                    @Override
-                                    public void onAnimationCancel(Animator animator) {
+            }
 
-                                    }
+            @Override
+            public void onAnimationRepeat(Animator animator) {
 
-                                    @Override
-                                    public void onAnimationRepeat(Animator animator) {
+            }
 
-                                    }
-
-                                }
-
-        );
+        });
         animatorSet.setDuration(ANIMATION_DURATION);
         animatorSet.playTogether(alpha, translationY);
         animatorSet.start();
@@ -247,5 +296,8 @@ public class FloatLabelLayout extends LinearLayout {
         return drawable;
     }
 
+    public Typeface getRegularTypeFace() {
+        return Typeface.createFromAsset(getContext().getAssets(), "Roboto-Regular.ttf");
+    }
 
 }

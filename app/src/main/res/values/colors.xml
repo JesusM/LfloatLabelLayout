@@ -3,4 +3,9 @@
     <color name="float_label">#ff00acf0</color>
     <color name="float_label_error">#e51c23</color>
     <color name="float_label_disabled">#ffa2a1a5</color>
+
+    <color name="text_color">#de000000</color>
+    <color name="secondary_text_color">#8a000000</color>
+    <color name="hint_text_color">#42000000</color>
+
 </resources>
