@@ -11,13 +11,17 @@ It has the same setText methods as a simple EditText:
   
 Both methods adapted from: http://developer.android.com/reference/android/widget/TextView.html#setError(java.lang.CharSequence)
 
-A sample screenshot: 
+A sample screenshot with an information label: 
 
 ![Sample] (images/Screenshot_2014-10-27-09-12-52.png)
 
-and with a custom error icon:
+and with an error message:
 
-![Photo with custom icon] (images/Screenshot_2014-10-27-09-13-08.png)
+![Photo with an error message] (images/Screenshot_2014-10-27-09-13-00.png)
+
+You can configure a custom icon for your error messages (see screenshot below):
+
+![Error message with custom icon] (images/Screenshot_2014-10-27-09-13-08.png)
 
 
 
