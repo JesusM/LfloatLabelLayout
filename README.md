@@ -13,11 +13,11 @@ Both methods adapted from: http://developer.android.com/reference/android/widget
 
 A sample screenshot: 
 
-![Photo] (https://lh6.googleusercontent.com/-F18lyJBjGUw/U_98xI2Zu8I/AAAAAAAAGzU/e47tUgYII88/w427-h711-no/Screenshot_2014-08-28-21-00-53.png)
+![Sample] (images/Screenshot_2014-10-27-09-12-52.png)
 
 and with a custom error icon:
 
-![Photo with custom icon] (https://lh6.googleusercontent.com/-F18lyJBjGUw/U_98xI2Zu8I/AAAAAAAAGzU/e47tUgYII88/w427-h711-no/Screenshot_2014-08-28-21-00-53.png)
+![Photo with custom icon] (images/Screenshot_2014-10-27-09-13-08.png)
 
 
 
